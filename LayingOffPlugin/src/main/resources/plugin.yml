@@ -1,0 +1,22 @@
+name: LayingOffPlugin
+version: '${project.version}'
+main: org.scarike.minecraft.LayingOffPlugin
+api-version: 1.18
+authors: [ Scarike ]
+description: LayingOffPlugin
+commands:
+  /set-control-point:
+    description: set a control point at the player's location
+    usage: //set-control-point <x> <y>
+  /laying-off:
+    description: darw geometrys on the ground
+    usage: //laying-off <geojson resource uri>
+  /begin:
+    description: start a transaction
+    usage: //begin
+  /commit:
+    description: end a transaction
+    usage: //commit
+  /rollback:
+    description: rollback a transaction
+    usage: //rollback
