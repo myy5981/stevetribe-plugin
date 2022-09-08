@@ -1,0 +1,6 @@
+name: ChatSyncPlugin
+version: '${project.version}'
+main: org.scarike.minecraft.ChatSyncPlugin
+api-version: 1.18
+authors: [ Scarike ]
+description: 在第三方聊天软件同步MC聊天消息
