@@ -10,21 +10,17 @@
 使用BFS进行范围查找并消除(代码丢失)
 
 ## 梦游插件
-[@TPam 提供的创意](DreamFlyPlugin/README.md)
+@TPam 提供的创意
 
-玩家进入睡觉一定时间就会进入梦游状态（旁观者模式）
+[玩家进入睡觉一定时间就会进入梦游状态（旁观者模式）](DreamFlyPlugin/README.md)
 
 ## 放样插件
 
 [用于将矢量地理信息数据生成于Minecraft世界中](LayingOffPlugin/README.md)
 
-## 交大MC玩家认证插件
+## 消息同步插件
 
-[在玩家进入服务器时校验玩家身份](SWJTUAuthPlugin/README.md)
-
-
-
-
+[用于同步第三方消息与MC聊天框的消息，支持OneBot v11协议](ChatSyncPlugin/README.md)
 
 
 

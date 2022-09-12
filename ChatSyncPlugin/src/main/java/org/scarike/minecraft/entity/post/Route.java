@@ -4,11 +4,13 @@ import com.squareup.okhttp.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.scarike.minecraft.entity.Message;
+import org.scarike.minecraft.entity.MinecraftMessage;
 
 import java.io.IOException;
-import java.net.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
 
 /**
  * 该类负责路由转发
@@ -17,6 +19,9 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 public class Route{
+
+    private static final Logger log=Logger.getLogger("minecraft");
+
     private String serverAddress;
     private Rule rule;
     private List<Target> targets;
@@ -31,20 +36,21 @@ public class Route{
         cli.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-
+                log.log(Level.SEVERE,"消息转发异常",e);
             }
 
             @Override
             public void onResponse(Response response) throws IOException {
-
+                response.body().close();
             }
         });
     }
 
-    public void route(Message message){
-        if(rule.match(message.getPlayer(), message.getMessage())){
+    public void route(MinecraftMessage message){
+        Matcher matcher= rule.match(message);
+        if(matcher!=null){
             for (Target target : targets) {
-                httpRequest(target.request(message));
+                httpRequest(target.request(message,matcher));
             }
         }
     }

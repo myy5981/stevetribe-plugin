@@ -3,9 +3,8 @@ package org.scarike.minecraft.listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.scarike.minecraft.ChatSyncPlugin;
-import org.scarike.minecraft.entity.Message;
+import org.scarike.minecraft.entity.MinecraftMessage;
 import org.scarike.minecraft.entity.post.PostChatReactor;
 
 import java.text.SimpleDateFormat;
@@ -25,7 +24,7 @@ public class PlayerChatEventHandler implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
         post.forward(
-                new Message()
+                new MinecraftMessage()
                 .setPlayer(event.getPlayer().getName())
                 .setWorld(event.getPlayer().getWorld().getName())
                 .setMessage(event.getMessage())

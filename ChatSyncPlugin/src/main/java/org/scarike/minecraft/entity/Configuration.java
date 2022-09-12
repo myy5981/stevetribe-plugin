@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 @Setter
 @Accessors(chain = true)
 public class Configuration {
-    private static final Rule DEFAULT_RULE_ALL= (player, message) ->  true;
+    private static final Rule DEFAULT_RULE_ALL= message ->  Rule.DEFAULT_MATCHER_ALL;
     public static final String DEFAULT_FORMAT="$player$: $message$";
 
     private PostChatReactor post;

@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class Message {
+public class MinecraftMessage {
     private String player;
     private String message;
     private String world;
