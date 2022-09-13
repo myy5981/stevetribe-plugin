@@ -124,6 +124,7 @@ public class QQMessage {
     public static class Sender{
         private String nickname;
         private String card;
+        private Long user_id;
     }
     @Getter
     @Setter

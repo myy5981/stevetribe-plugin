@@ -34,7 +34,7 @@ public class Configuration {
         List<Long> origin = conf.getLongList("get.origin");
         if(origin!=null&&origin.size()>0){
             config.getConverter().setOrigin(origin);
-        }else throw new ConfigurationException("至少一个origin作为接收目标");
+        }
         try {
             config.getConverter().setFormat(conf.getString("get.format",DEFAULT_FORMAT));
             config.setPort(conf.getInt("get.port",DEFAULT_PORT));

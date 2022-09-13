@@ -43,7 +43,6 @@ public class HttpServer extends Thread{
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            // System.out.println("======================================");
                             ch.pipeline()
                                     .addLast(new HttpServerCodec())
                                     .addLast(new HttpObjectAggregator(1024))
@@ -51,11 +50,7 @@ public class HttpServer extends Thread{
                                         @Override
                                         protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest req) throws Exception {
 //                                            System.out.println("-----------------------------------");
-//                                            System.out.print(req.method().name());
-//                                            System.out.print(" ");
-//                                            System.out.print(req.uri());
-//                                            System.out.print(" ");
-//                                            System.out.println(req.protocolVersion().toString());
+//                                            System.out.println(req.method().name()+" "+req.uri()+" "+req.protocolVersion().toString());
 //                                            Iterator<Map.Entry<String, String>> it = req.headers().iteratorAsString();
 //                                            while (it.hasNext()) {
 //                                                Map.Entry<String, String> next = it.next();

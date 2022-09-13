@@ -14,14 +14,14 @@ post:
         - scarike
   routes:
     - server_address: 127.0.0.1:5700
-      rule: rule-example
+      rule: all
       target:
         - type: group
           id: 902338238
 
 get:
   port: 8080
-  origin: #表示仅接收来自这些人/群的消息
-    - 902338238
-  regex:
-    - '.*\[CQ:at,qq=1022269770\].*' #该正则表示仅接收@机器人的消息，注意替换这个QQ号
+    # origin: #表示仅接收来自这些人/群的消息
+    #    - 902338238
+    # regex:
+  # - '.*\[CQ:at,qq=1022269770\].*' #该正则表示仅接收@机器人的消息，注意替换这个QQ号

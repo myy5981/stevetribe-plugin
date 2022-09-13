@@ -15,7 +15,7 @@ import static org.scarike.minecraft.util.Format.formatQQ;
 @Setter
 @Accessors(chain = true)
 public class QQMessageConverter {
-    private long self;
+    private Long self;
     private List<Long> origin;
     private List<Pattern> regex;
     private String format;
@@ -32,6 +32,10 @@ public class QQMessageConverter {
         if (!(message.getSelf_id()!=null&&message.getSelf_id().equals(self))) {
             return null;
         }
+        //自己发的消息，忽略
+//        if (self.equals(message.getSender().getUser_id())) {
+//            return null;
+//        }
         String player;
         if("private".equals(message.getMessage_type())){
             if(origin!=null&&origin.size()>0&&(!origin.contains(message.getUser_id()))){
@@ -58,14 +62,16 @@ public class QQMessageConverter {
         }
         String raw_message=message.getRaw_message();
 
-        if(regex!=null){
+        if(regex!=null&&regex.size()>0){
             for (Pattern pattern : regex) {
                 if (pattern.matcher(raw_message).matches()) {
                     raw_message = CQ_REGEX.matcher(raw_message).replaceAll("");
                     return formatQQ(format,player,raw_message);
                 }
             }
+            return null;
         }
-        return null;
+        raw_message = CQ_REGEX.matcher(raw_message).replaceAll("");
+        return formatQQ(format,player,raw_message);
     }
 }

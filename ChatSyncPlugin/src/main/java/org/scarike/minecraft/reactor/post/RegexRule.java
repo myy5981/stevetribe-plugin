@@ -41,8 +41,7 @@ public class RegexRule implements Rule {
         }
         if(include!=null){
             for (Pattern inc : include) {
-                Matcher matcher=inc.matcher(message);
-                if (matcher.matches()) {
+                if (inc.matcher(message).matches()) {
                     return true;
                 }
             }
