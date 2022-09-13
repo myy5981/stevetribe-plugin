@@ -1,10 +1,12 @@
-package org.scarike.minecraft.entity;
+package org.scarike.minecraft.conf;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.scarike.minecraft.entity.post.*;
+import org.scarike.minecraft.reactor.get.GetReactor;
+import org.scarike.minecraft.reactor.get.QQMessageConverter;
+import org.scarike.minecraft.reactor.post.*;
 import org.scarike.minecraft.exception.ConfigurationException;
 
 import java.util.*;
@@ -14,10 +16,42 @@ import java.util.regex.Pattern;
 @Setter
 @Accessors(chain = true)
 public class Configuration {
-    private static final Rule DEFAULT_RULE_ALL= message ->  Rule.DEFAULT_MATCHER_ALL;
-    public static final String DEFAULT_FORMAT="$player$: $message$";
+    private static final Rule DEFAULT_RULE_ALL= message ->  true;
+    public static final String DEFAULT_FORMAT="<_player_> _message_";
+    private static final int DEFAULT_PORT = 8080;
 
     private PostChatReactor post;
+    private GetReactor get;
+
+    private static GetReactor readGet(FileConfiguration conf){
+        long self=conf.getLong("self");
+        if(self==0){
+            throw new ConfigurationException("属性self表识机器人账户，是必须的");
+        }
+        GetReactor config=new GetReactor();
+        config.setConverter(new QQMessageConverter());
+        config.getConverter().setSelf(self);
+        List<Long> origin = conf.getLongList("get.origin");
+        if(origin!=null&&origin.size()>0){
+            config.getConverter().setOrigin(origin);
+        }else throw new ConfigurationException("至少一个origin作为接收目标");
+        try {
+            config.getConverter().setFormat(conf.getString("get.format",DEFAULT_FORMAT));
+            config.setPort(conf.getInt("get.port",DEFAULT_PORT));
+
+            List<String> regex_str=conf.getStringList("get.regex");
+            if(regex_str!=null&&regex_str.size()>0){
+                List<Pattern> regex=new LinkedList<>();
+                for (String s : regex_str) {
+                    regex.add(Pattern.compile(s));
+                }
+                config.getConverter().setRegex(regex);
+            }
+            return config;
+        } catch (Exception exception) {
+            throw new ConfigurationException("get配置读取失败",exception);
+        }
+    }
 
     private static Rule readRule(FileConfiguration conf, String name,Map<String,Rule> cache){
         if(name==null||name.equals("all")){
@@ -47,9 +81,13 @@ public class Configuration {
             }
             rule.setExclude(excludes);
         }
-        List<String> players = conf.getStringList("post.rules."+ name + ".player");
+        List<String> players = conf.getStringList("post.rules."+ name + ".white-list");
         if(players!=null&&players.size()>0){
-            rule.setPlayers(players);
+            rule.setWhite(players);
+        }
+        players = conf.getStringList("post.rules."+ name + ".black-list");
+        if(players!=null&&players.size()>0){
+            rule.setBlack(players);
         }
         cache.put("name",rule);
         return rule;
@@ -111,7 +149,7 @@ public class Configuration {
             }
             post.setRoutes(routes);
         }
-        return config.setPost(post);
+        return config.setPost(post).setGet(readGet(conf));
     }
 
 }

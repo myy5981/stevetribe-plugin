@@ -1,4 +1,4 @@
-package org.scarike.minecraft.entity.post;
+package org.scarike.minecraft.reactor.post;
 
 import com.squareup.okhttp.*;
 import lombok.Getter;
@@ -47,10 +47,9 @@ public class Route{
     }
 
     public void route(MinecraftMessage message){
-        Matcher matcher= rule.match(message);
-        if(matcher!=null){
+        if(rule.match(message)){
             for (Target target : targets) {
-                httpRequest(target.request(message,matcher));
+                httpRequest(target.request(message));
             }
         }
     }

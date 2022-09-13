@@ -1,0 +1,46 @@
+## ps：下面注释行中以两个#开头的表示必选配置
+## ps2：正则表达式，format中往往含有yml特殊字符，请注意规避/使用转义/使用引号括起
+
+post: ## post配置项用于配置将mc消息转发到第三方的逻辑
+  format: '_player_：_message_' # 转发格式（全局级别，当局部格式缺省时选用此），其中_player_，_message_，_time_，_world_为动态占位符
+  rules: # 过滤规则，拥有默认过滤规则：all
+    rule-example:
+      include: # 包含匹配，如果该项被配置，当消息与下列任意正则表达式匹配时将会被转发，反之丢弃
+        - '123'
+        - '456'
+      exclude: # 排除匹配，如果该项被配置，当消息与下列任意正则表达式匹配时将会被丢弃，该项检查在include项之前
+        - '789'
+      white-list: # 白名单玩家，如果该项被配置，仅名单中玩家的发言会被转发
+        - scarike
+      black-list: # 黑名单玩家，如果该项被配置，名单中玩家的发言不会被转发
+        - Scarike
+  routes: # 路由规则，表示转发消息的目标地址，可以配置多个
+    - server_address: 127.0.0.1:5700 # 必选，OneBot实现的地址，比如go-cqhttp，一般对应一个机器人账号
+      rule: all # 启用的规则，默认为all表示全部放行
+      format: '_player_说：_message_' # 消息格式，对该路由适用
+      target: ## 转发目标
+        - type: private # 必选，private表示私聊，group表示群聊
+          id: 1844246823 # 必选，目标id，比如qq号，群聊号，频道编号
+          format: '[_time_] _player_：_message_。' # 消息格式，仅在该target生效
+# 不考虑CQ码转义，玩家在MC中发送的消息将会原封不动地转发到第三方
+
+get: ## get配置项指定将第三方消息转发到MC的规则
+  host: 0.0.0.0 # 绑定主机
+  port: 8081 # 必选，绑定端口
+  origin: # 监听哪些qq号/群聊号/频道号发送的消息
+    - 1844246823
+  regex: # 匹配规则，若配置该项，表示与下列任一正则匹配的消息会被发送到MC
+    - '*'
+
+# 看起来挺多的，下面是省流小助手：
+# 如果需要将所有的信息在群聊和服务器间同步，只需进行如下配置：
+# post:
+#   routes:
+#     - server_address: 127.0.0.1:5700
+#       target:
+#         - type: group
+#           id: xxxxxxxxxx
+# get:
+#   port: 8081
+#   origin:
+#     - xxxxxxxxxx

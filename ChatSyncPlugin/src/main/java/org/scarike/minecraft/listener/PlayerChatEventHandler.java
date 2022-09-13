@@ -5,7 +5,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.scarike.minecraft.ChatSyncPlugin;
 import org.scarike.minecraft.entity.MinecraftMessage;
-import org.scarike.minecraft.entity.post.PostChatReactor;
+import org.scarike.minecraft.reactor.post.PostChatReactor;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

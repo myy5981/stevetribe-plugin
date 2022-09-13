@@ -1,4 +1,4 @@
-package org.scarike.minecraft.entity.post;
+package org.scarike.minecraft.reactor.post;
 
 import lombok.Getter;
 import lombok.Setter;
