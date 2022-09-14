@@ -16,6 +16,9 @@ public class HttpServerTest {
 
     @Test
     public void run() throws InterruptedException, IOException, InvalidConfigurationException {
+
+        System.out.println("!@#$$%%^^&*()\"\"\"".replace("\"","\\\""));
+
         YamlConfiguration configuration = new YamlConfiguration();
         configuration.load(new File("src/main/resources/config.yml"));
         Configuration conf = Configuration.readConf(configuration);

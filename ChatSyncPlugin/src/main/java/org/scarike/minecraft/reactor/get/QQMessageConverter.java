@@ -33,9 +33,9 @@ public class QQMessageConverter {
             return null;
         }
         //自己发的消息，忽略
-//        if (self.equals(message.getSender().getUser_id())) {
-//            return null;
-//        }
+        if (self.equals(message.getSender().getUser_id())) {
+            return null;
+        }
         String player;
         if("private".equals(message.getMessage_type())){
             if(origin!=null&&origin.size()>0&&(!origin.contains(message.getUser_id()))){
